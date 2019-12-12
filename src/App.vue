@@ -12,7 +12,7 @@
     <ul class="lista-fotos">                                          
       <li class="lista-fotos-item" :key="foto.titulo" v-for="foto in fotosComFiltros">
           <meu-painel v-color :titulo="foto.titulo">
-            <img class="imagem-responsiva" :src="foto.url" :alt="foto.titulo">
+            <img-respon :url="foto.url" :titulo="foto.titulo"></img-respon>
           </meu-painel>
       </li>  
     </ul>
@@ -23,18 +23,19 @@
 "use strict"
 //import do arquivo
 import Painel from "./components/shared/painel/Painel";
-
+import imagemResponsiva from "./components/imagem-responsiva/imagemResponsiva";
 export default {
   name: 'app',
   components: {
-   'meu-painel' : Painel    
+   'meu-painel' : Painel,
+   'img-respon' : imagemResponsiva
   },
   data() {
     return {
-      titulo: "Bem vindo",
-      erro_mesage: "",
-      fotos: [],
-      filtro: ""
+      titulo : "Bem vindo",
+      erro_mesage : "",
+      fotos : [],
+      filtro : ""
     }
   },
   computed: {
@@ -63,6 +64,9 @@ export default {
     width: 96%;
     margin: 0 auto;
   }
+  .color {
+    color: crimson;
+  }
   .centralizado {
     text-align: center;
   }
@@ -71,9 +75,6 @@ export default {
   }
   .lista-fotos .lista-fotos-item {
     display: inline-block;
-  }
-  .imagem-responsiva {
-    width: 100%;
   }
   .filtro {
     display: block;
