@@ -36,8 +36,7 @@ export default {
     vertical-align: top;
     text-align: center;
   }
-
-  .painel .painel-titulo {
+  .painel-titulo {
     text-align: center;
     border: solid 2px;
     background: lightblue;
@@ -45,7 +44,6 @@ export default {
     padding: 10px;
     text-transform: uppercase;
   }
-
   * {
     box-shadow: 5px 5px 10px black;
   }

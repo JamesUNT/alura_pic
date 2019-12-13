@@ -1,59 +1,34 @@
 <template>
   <div id="app">
-    <!-- É possível usar a interpolação "v-text" para ligar textos em data()-->
-    <h1 class="centralizado">{{ titulo }}</h1>
 
-    <input type="search" class="filtro" 
-    v-model="filtro" 
-    placeholder="filtre pelo titulo">
-    
-    <p>{{filtro}}</p>
+    <nav>
+      <ul>       
+        <li :key="route" v-for="route in routes">
+          <router-link :to="route.path">{{ route.titulo }}</router-link>
+        </li>
+      </ul>
+    </nav>
 
-    <ul class="lista-fotos">                                          
-      <li class="lista-fotos-item" :key="foto.titulo" v-for="foto in fotosComFiltros">
-          <meu-painel v-color :titulo="foto.titulo">
-            <img-respon :url="foto.url" :titulo="foto.titulo"></img-respon>
-          </meu-painel>
-      </li>  
-    </ul>
+    <router-view></router-view>
+
   </div>
 </template>
 
 <script>
 "use strict"
-//import do arquivo
-import Painel from "./components/shared/painel/Painel";
-import imagemResponsiva from "./components/imagem-responsiva/imagemResponsiva";
+import { routes } from './routes';
+
 export default {
-  name: 'app',
-  components: {
-   'meu-painel' : Painel,
-   'img-respon' : imagemResponsiva
-  },
+
+  name: 'App',
+
   data() {
+
     return {
-      titulo : "Bem vindo",
-      erro_mesage : "",
-      fotos : [],
-      filtro : ""
+
+      routes : routes
+
     }
-  },
-  computed: {
-    fotosComFiltros() {
-      if(this.filtro) {
-        let exp = new RegExp(this.filtro.trim(),'yi');
-        return this.fotos.filter(foto => exp.test(foto.titulo));
-      }else{
-        return this.fotos;
-      }
-    }
-  },
-  created() {
-    this.$http.get("http://localhost:3000/v1/fotos")
-    .then(res => res.json())
-    .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
-    this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
-    this.erro_mesage = "");
   }
 }
 </script>
@@ -63,22 +38,6 @@ export default {
     font-family: Helvetica, sans-serif;
     width: 96%;
     margin: 0 auto;
-  }
-  .color {
-    color: crimson;
-  }
-  .centralizado {
-    text-align: center;
-  }
-  .lista-fotos {
-    list-style-type:none;
-  }
-  .lista-fotos .lista-fotos-item {
-    display: inline-block;
-  }
-  .filtro {
-    display: block;
-    width: 100%;
   }
 </style>
 

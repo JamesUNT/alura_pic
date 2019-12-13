@@ -1,11 +1,33 @@
 import Vue from 'vue';
 import App from './App.vue';
 import VueReource from 'vue-resource';
+import VueRouter from 'vue-router';
+
+//import de rootas de routes.js; é possível fazer diretamente em "const router" no objeto "routes".
+//import usando chaves pois "routes" não e um objeto pad~rao do VueJS.
+import { routes } from './routes'; 
 
 Vue.use(VueReource);
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+  routes : routes,
+  mode : 'history',
+});
 
 Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-}).$mount('#app')
+  router: router
+}).$mount('#app');
+
+/*
+  Vue router -> É uma lib para VueJS que permite a renderização de múltiplas SPAs (Single Page Applications) atraavés 
+  de caminhos, ou seja, cada caminho na URL rendeiza uma SPA diferente sem precisar recarregar a página. Para mais in-
+  formações do seu funcionamento, visite https://router.vuejs.org/; 
+  Tutorial resumindo o uso do vue-router: https://www.codingame.com/playgrounds/3808/how-to-use-vue-router.
+
+  Vue resource -> Vue resource é uma lib para o vueJS feita para realizar e receber requisiçôes HTTP de web servers,
+  mais informações em: https://github.com/pagekit/vue-resource.
+*/
