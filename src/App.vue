@@ -1,26 +1,30 @@
 <template>
   <div id="app">
 
-    <nav>
-      <ul>       
-        <li :key="route" v-for="route in routes">
-          <router-link :to="route.path">{{ route.titulo }}</router-link>
-        </li>
-      </ul>
-    </nav>
+    <menu-painel :rotas="routes"></menu-painel>
 
-    <router-view></router-view>
-
+    <transition name="pagina">
+      <!-- tag responsável pela transição entre componentes armazenados e "routes" -->
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
 "use strict"
+
 import { routes } from './routes';
+import menuPainel from './components/shared/menu/menuPainel.vue';
 
 export default {
 
   name: 'App',
+
+  components : {
+
+    'menu-painel' : menuPainel
+
+  },
 
   data() {
 
@@ -38,6 +42,18 @@ export default {
     font-family: Helvetica, sans-serif;
     width: 96%;
     margin: 0 auto;
+  }
+
+  .pagina-enter, .pagina-leave-to {
+    opacity: 0;
+  }
+
+  .pagina-enter-to, .pagina-leave {
+    opacity: 1;
+  }
+
+  .pagina-enter-active, .pagina-leave-active {
+    transition: opacity 0.5s;
   }
 </style>
 

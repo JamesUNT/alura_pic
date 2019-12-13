@@ -12,12 +12,19 @@
 
 <script>
 "use strict"
+
 export default {
+
   name : 'Painel',
+
   props : ["titulo"],
+
   data(){
+
     return {
+
       visivel: true
+
     }
   }
 }

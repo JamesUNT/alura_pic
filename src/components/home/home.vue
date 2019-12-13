@@ -27,26 +27,38 @@ import Painel from "../shared/painel/Painel";
 import imagemResponsiva from "../imagem-responsiva/imagemResponsiva";
 
 export default {
+
   name: 'app',
+
   components: {
+
    'meu-painel' : Painel,
    'img-respon' : imagemResponsiva
+
   },
   data() {
+
     return {
+
       titulo : "Bem vindo",
       erro_mesage : "",
       fotos : [],
       filtro : ""
+
     }
   },
   computed: {
     fotosComFiltros() {
+
       if(this.filtro) {
+
         let exp = new RegExp(this.filtro.trim(),'yi');
         return this.fotos.filter(foto => exp.test(foto.titulo));
+
       }else{
+
         return this.fotos;
+
       }
     }
   },
@@ -64,12 +76,15 @@ export default {
   .centralizado {
     text-align: center;
   }
+  
   .lista-fotos {
     list-style-type:none;
   }
+
   .lista-fotos .lista-fotos-item {
     display: inline-block;
   }
+
   .filtro {
     display: block;
     width: 100%;

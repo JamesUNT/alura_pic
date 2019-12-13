@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name : 'imagem responsiva',
+    name : 'imagem-responsiva',
     props : ['url','titulo']
 }
 </script>
