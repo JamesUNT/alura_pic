@@ -7,13 +7,22 @@
     v-model="filtro" 
     placeholder="filtre pelo titulo">
     
-    <p>{{ erro_mesage }}</p>
+    <p class="centralizado erro_msg">{{ erro_mesage }}</p>
     <p>{{ filtro }}</p>
 
     <ul class="lista-fotos">                                          
       <li class="lista-fotos-item" :key="foto.titulo" v-for="foto in fotosComFiltros">
           <meu-painel :titulo="foto.titulo">
+
             <img-respon :url="foto.url" :titulo="foto.titulo"></img-respon>
+
+            <botao tipo="button" 
+            rotulo="REMOVER" 
+            :confirmacao="true"
+            estilo="perigo"
+            @botaoAtivado="remover(foto.titulo)">
+            </botao>
+
           </meu-painel>
       </li>  
     </ul>
@@ -25,15 +34,39 @@
 //import do arquivo
 import Painel from "../shared/painel/Painel";
 import imagemResponsiva from "../imagem-responsiva/imagemResponsiva";
+import botao from '../shared/botao/botao'
 
 export default {
 
   name: 'app',
 
-  components: {
+  components : {
 
    'meu-painel' : Painel,
-   'img-respon' : imagemResponsiva
+   'img-respon' : imagemResponsiva,
+   'botao' : botao
+  },
+  computed: {
+      
+    fotosComFiltros() {
+  
+      if(this.filtro) {
+  
+        let exp = new RegExp(this.filtro.trim(),'yi');
+        return this.fotos.filter(foto => exp.test(foto.titulo));
+  
+      }else{
+  
+        return this.fotos;
+  
+      }
+    }
+  },
+  methods: {
+
+    remover : (elemento) => {
+      alert('remover ' + elemento);
+    }
 
   },
   data() {
@@ -47,27 +80,14 @@ export default {
 
     }
   },
-  computed: {
-    fotosComFiltros() {
-
-      if(this.filtro) {
-
-        let exp = new RegExp(this.filtro.trim(),'yi');
-        return this.fotos.filter(foto => exp.test(foto.titulo));
-
-      }else{
-
-        return this.fotos;
-
-      }
-    }
-  },
   created() {
+  
     this.$http.get("http://localhost:3000/v1/fotos")
     .then(res => res.json())
     .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
     this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
     this.erro_mesage = "");
+  
   }
 }
 </script>
@@ -88,6 +108,10 @@ export default {
   .filtro {
     display: block;
     width: 100%;
+  }
+
+  .erro_msg {
+    color: crimson;
   }
 </style>
 

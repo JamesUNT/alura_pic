@@ -16,15 +16,11 @@ export default {
 
     name : 'menu-painel',
 
-    //props : ['rotas'] --> maneira padrão de declaração de props.
-
-    props : { //props com validação de tipo de dado.
+    props : {
 
       rotas : {
-
         type : Array,
         required : true
-
       }
 
     }
