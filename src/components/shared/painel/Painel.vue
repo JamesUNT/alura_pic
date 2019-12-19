@@ -51,6 +51,11 @@ export default {
     padding: 10px;
     text-transform: uppercase;
   }
+
+  .painel-conteudo {
+    overflow: hidden;
+  }
+
   * {
     box-shadow: 5px 5px 10px black;
   }

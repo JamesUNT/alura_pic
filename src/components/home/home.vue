@@ -14,7 +14,7 @@
       <li class="lista-fotos-item" :key="foto.titulo" v-for="foto in fotosComFiltros">
           <meu-painel :titulo="foto.titulo">
 
-            <img-respon :url="foto.url" :titulo="foto.titulo"></img-respon>
+            <img-respon v-meu-transform:rotate.animate="15" :url="foto.url" :titulo="foto.titulo"></img-respon>
 
             <botao tipo="button" 
             rotulo="REMOVER" 
@@ -22,7 +22,6 @@
             estilo="perigo"
             @botaoAtivado="remover(foto.titulo)">
             </botao>
-
           </meu-painel>
       </li>  
     </ul>
@@ -45,6 +44,7 @@ export default {
    'meu-painel' : Painel,
    'img-respon' : imagemResponsiva,
    'botao' : botao
+
   },
   computed: {
       
@@ -66,7 +66,7 @@ export default {
 
     remover : (elemento) => {
       alert('remover ' + elemento);
-    }
+    },
 
   },
   data() {
@@ -76,7 +76,8 @@ export default {
       titulo : "Bem vindo",
       erro_mesage : "",
       fotos : [],
-      filtro : ""
+      filtro : "",
+      acao:""
 
     }
   },

@@ -1,5 +1,7 @@
 <template>
+
   <button :class="estiloDoBotao" :type='tipo' @click="disparaAcao()">{{ rotulo }}</button>
+  
 </template>
 
 <script>

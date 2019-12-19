@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueReource from 'vue-resource';
 import VueRouter from 'vue-router';
+import './directives/rotation'
 
 //import de rootas de routes.js; é possível fazer diretamente em "const router" no objeto "routes".
 //import usando chaves pois "routes" não e um objeto pad~rao do VueJS.
