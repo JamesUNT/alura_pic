@@ -82,13 +82,13 @@ export default {
     }
   },
   created() {
-  
+
     this.$http.get("http://localhost:3000/v1/fotos")
     .then(res => res.json())
     .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
     this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
     this.erro_mesage = "");
-  
+
   }
 }
 </script>
