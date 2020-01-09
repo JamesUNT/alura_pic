@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueReource from 'vue-resource';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex'
 import './directives/rotation'
 
 //import de rootas de routes.js; é possível fazer diretamente em "const router" no objeto "routes".
@@ -9,7 +10,11 @@ import './directives/rotation'
 import { routes } from './routes'; 
 
 Vue.use(VueReource);
+//Definição de um endereço padrão para realizar posts e gets
+Vue.http.options.root = 'http://localhost:3000';
+
 Vue.use(VueRouter);
+Vue.use(Vuex);
 
 const router = new VueRouter({
   mode : 'history',

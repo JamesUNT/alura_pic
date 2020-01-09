@@ -3,6 +3,9 @@
     <!-- É possível usar a interpolação "v-text" para ligar textos em data()-->
     <h1 class="centralizado">{{ titulo }}</h1>
 
+    <p type="centralizado" v-show="mensage">
+      {{mensage}}
+    </p>
     <input type="search" class="filtro" 
     v-model="filtro" 
     placeholder="filtre pelo titulo">
@@ -18,9 +21,9 @@
 
             <botao tipo="button" 
             rotulo="REMOVER" 
-            :confirmacao="true"
+            :confirmacao="false"
             estilo="perigo"
-            @botaoAtivado="remover(foto.titulo)">
+            @botaoAtivado="remover(foto)">
             </botao>
           </meu-painel>
       </li>  
@@ -34,6 +37,8 @@
 import Painel from "../shared/painel/Painel";
 import imagemResponsiva from "../imagem-responsiva/imagemResponsiva";
 import botao from '../shared/botao/botao'
+import fotoService from '../../domain/foto/fotoService'
+
 
 export default {
 
@@ -64,17 +69,43 @@ export default {
   },
   methods: {
 
-    remover : (elemento) => {
-      alert('remover ' + elemento);
-    },
+    remover(elemento) {
+
+      this.service.apaga(elemento._id)
+      .then(() => {
+        let indice = this.fotos.indexOf(elemento);
+        this.fotos.splice(indice, 1); 
+        this.mensage = "Foto removida com sucesso."
+      }, 
+      err => this.erro_mesage = `Não foi possível remover a foto: ${err}`);
+
+      // this.resource.delete({
+      //   id: elemento._id
+      // })
+      // .then(() => {
+      //   let indice = this.fotos.indexOf(elemento);
+      //   this.fotos.splice(indice, 1); 
+      //   this.mensage = "Foto removida com sucesso."
+      // }, 
+      // err => this.erro_mesage = `Não foi possível remover a foto: ${err}`);
+
+      // this.$http.delete(`v1/fotos/${elemento._id}`)
+      // .then(() => {
+      //   let indice = this.fotos.indexOf(elemento);
+      //   this.fotos.splice(indice, 1); 
+      //   this.mensage = "Foto removida com sucesso."
+      // }, 
+      // err => this.erro_mesage = `Não foi possível remover a foto: ${err}`);
+    }
 
   },
-  data() {
+  data () {
 
     return {
 
       titulo : "Bem vindo",
       erro_mesage : "",
+      mensage: "",
       fotos : [],
       filtro : "",
       acao:""
@@ -83,11 +114,32 @@ export default {
   },
   created() {
 
-    this.$http.get("http://localhost:3000/v1/fotos")
+    this.service = new fotoService(this.$resource);
+
+
+    this.service
+    .lista()
+    .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
+    this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
+    this.erro_mesage = "");
+
+    //Criação de um objeto universal que disponibiliza um endereço dinamicamente
+    this.resource = this.$resource('v1/fotos{/id}');
+
+    //.query() é equivalente a $http.get() para endereços previamente estabelecidos (resource).
+    this.resource
+    .query()    
     .then(res => res.json())
     .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
     this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
     this.erro_mesage = "");
+
+
+    // this.$http.get("http://localhost:3000/v1/fotos")
+    // .then(res => res.json())
+    // .then(fotos => this.fotos = fotos, erro => erro.status == 0 ? 
+    // this.erro_mesage = "Houve um erro ao carregar o conteúdo, por favor tente novamente." : 
+    // this.erro_mesage = "");
 
   }
 }

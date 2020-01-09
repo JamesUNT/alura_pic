@@ -7,7 +7,7 @@
     <!-- O formulário executa uma função de submissão para trabalhar os dados capturados-->
     <form @submit.prevent="grava()">
       <div class="controle">
-        <label for="titulo">TÍTULO</label>    <!-- modifier .lazy so aplica o v-model quando o estado do input mudar -->
+        <label for="titulo">TÍTULO</label>   <!-- modifier.lazy so aplica o v-model quando o estado do input mudar -->
         <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo">
       </div>
 
@@ -39,6 +39,7 @@
 import ImagemResponsiva from '../imagem-responsiva/imagemResponsiva'
 import Botao from '../shared/botao/botao'
 import foto from '../../domain/foto/foto'
+import fotoService from '../../domain/foto/fotoService'
 
 export default {
 
@@ -62,15 +63,31 @@ export default {
   methods: {
 
     grava () {
-
-      this.$http.post('http://localhost:3000/v1/fotos', this.foto)
+      this.service.cadastra(this.foto)
       .then(() => this.erro_mesage = '', (err) => err ? 
       this.erro_mesage = `houve um erro ao registrar a foto, por favor tente novamente mais tarde.` 
-      : this.erro_mesage = '')
+      : this.erro_mesage = '');
 
-      event.target.reset()
 
+      // this.resource.save(this.foto)
+      // .then(() => this.erro_mesage = '', (err) => err ? 
+      // this.erro_mesage = `houve um erro ao registrar a foto, por favor tente novamente mais tarde.` 
+      // : this.erro_mesage = '');
+
+      // this.$http.post('http://localhost:3000/v1/fotos', this.foto)
+      // .then(() => this.erro_mesage = '', (err) => err ? 
+      // this.erro_mesage = `houve um erro ao registrar a foto, por favor tente novamente mais tarde.` 
+      // : this.erro_mesage = '');
+
+      event.target.reset();
     }
+  },
+
+  created() {
+
+    this.service = new fotoService(this.$resource);
+
+    //this.resource = this.$resource('v1/fotos');
 
   }
 }
